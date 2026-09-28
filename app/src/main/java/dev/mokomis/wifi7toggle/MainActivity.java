@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 package dev.mokomis.wifi7toggle;
 
 import android.app.Activity;

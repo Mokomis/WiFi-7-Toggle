@@ -135,4 +135,4 @@ This project exposes an already present Qualcomm capability. It does not guarant
 
 ## License
 
-Copyright 2026 Mokomis. Licensed under the [Apache License 2.0](LICENSE), a permissive open-source license that allows use, modification, and redistribution while preserving its notices and patent terms.
+Copyright 2026 Mokomis. Licensed under the [GNU General Public License v3.0](LICENSE). You may use, study, modify, and redistribute the software; distributors of modified versions must provide the corresponding source under GPLv3. Release APKs link to the complete source for their tagged version in this repository.
