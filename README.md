@@ -132,3 +132,7 @@ The initial downloadable APK is the exact debug-signed build tested on the table
 ## Scope
 
 This project exposes an already present Qualcomm capability. It does not guarantee that every access point, region, firmware version, or nominally similar tablet will permit 6 GHz operation. Users remain responsible for complying with applicable radio regulations.
+
+## License
+
+Copyright 2026 Mokomis. Licensed under the [Apache License 2.0](LICENSE), a permissive open-source license that allows use, modification, and redistribution while preserving its notices and patent terms.
