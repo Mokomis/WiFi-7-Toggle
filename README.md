@@ -133,6 +133,14 @@ The initial downloadable APK is the exact debug-signed build tested on the table
 
 This project exposes an already present Qualcomm capability. It does not guarantee that every access point, region, firmware version, or nominally similar tablet will permit 6 GHz operation. Users remain responsible for complying with applicable radio regulations.
 
+## Other tools for this tablet
+
+Separate root utilities for the OPPO Pad Mini OPD2515. Each works by itself.
+
+- [Refresh Manager](https://github.com/Mokomis/opd2515-refresh-manager): lets any app use 144 Hz, or locks an app to 60, 120 or 144 Hz.
+- [GPU Clock Floor](https://github.com/Mokomis/adreno-clock-floor): holds the Adreno GPU clock at a chosen minimum, for steadier GPU work such as video decode while streaming.
+- [Low-latency audio](https://github.com/Mokomis/opd2515-low-latency-audio): documents how ColorOS keeps apps off the low-latency audio paths, with a script to allow chosen apps.
+
 ## License
 
 Copyright 2026 Mokomis. Licensed under the [GNU General Public License v3.0](LICENSE). You may use, study, modify, and redistribute the software; distributors of modified versions must provide the corresponding source under GPLv3. Release APKs link to the complete source for their tagged version in this repository.
