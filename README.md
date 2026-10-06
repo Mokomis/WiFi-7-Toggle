@@ -129,6 +129,43 @@ The project uses only Android platform APIs and has no third-party runtime libra
 
 The initial downloadable APK is the exact debug-signed build tested on the tablet. Android debug signing is suitable for testing and sideloading, but not for Play Store distribution or a long-term production update channel. Future production releases should use a securely stored project-specific signing key.
 
+## After enabling: channel width is not fixed
+
+Once the tablet is on a 6 GHz Wi-Fi 7 network, expect its reported link speed to move around a great deal. This is the Wi-Fi firmware's own behaviour, not a fault in the connection and not something this app changes. It was measured on one OPD2515 on a TP-Link Deco mesh on October 5, 2026, using the firmware's diagnostic log.
+
+**What the firmware does.** On a multi-link (MLO) association, even one that uses a single 6 GHz link, the firmware's multi-link power-save module chooses the receive width every 100 ms from how much of the channel's airtime the tablet's own traffic fills. It then asks the access point to follow, and the access point complies.
+
+| Traffic to the tablet | Width chosen |
+|---|---|
+| 0 to 100 Mb/s | 80 MHz |
+| 200 Mb/s | 80 MHz, asking for more about a fifth of the time |
+| 400 Mb/s | flips between 80 and 320 MHz about twice a second |
+| about 1,100 Mb/s | 320 MHz, steady |
+
+**What follows from that.**
+
+- A link speed of 600 to 1,200 Mbps at 80 MHz on an idle tablet is normal. The width only shows under sustained load. The uplink figure stays at 320 MHz throughout.
+- The firmware also rests one antenna when nearly idle, so the two antennas can report signal levels 10 dB or more apart. That is power saving, not a weak antenna.
+- A steady load of roughly 300 to 700 Mb/s is the awkward range: the link changes width constantly. Either well below it or well above it is steadier.
+- A short speed test can under-read. Bursts shorter than the firmware's 100 ms decision interval finish before the link has widened.
+
+**Settings tried in the same configuration file, none of which stops it.** Each was added before the `END` line of `/mnt/vendor/persist/wlan/WCNSS_qcom_cfg.ini`, followed by a reboot, then removed again.
+
+| Setting | Result |
+|---|---|
+| `gEnableBmps=0`, `gEnableImps=0` | Both antennas stay on at idle; the width still switches |
+| `gDtim1ChRxEnable=0`, `enable_dynamic_nss_chain_config=0`, `gRuntimePM=0` | No visible effect |
+| `mlo_support_link_band=0x33` | **Breaks the connection.** The access point rejected every association attempt on 6 GHz |
+| `gDot11Mode=10` | **Breaks 6 GHz.** The tablet stopped seeing 6 GHz networks at all |
+
+`dynamic_bw_switch` looks like the obvious candidate and is not: it governs how the tablet transmits when a neighbouring network is busy. Asking Android for low-latency Wi-Fi does not stop the switching either; the firmware was already in its highest latency mode while it happened. The firmware's message catalogue shows no enable or disable control for the width decision.
+
+On the router side, turning the Deco's separate MLO network off removed that network but left the 6 GHz network multi-link, so it changed nothing here. Other access points may differ.
+
+**If the tablet is on a mesh.** It sometimes joined the far node at a weak signal (4 of about 21 connections), and an app holding a low-latency Wi-Fi lock kept it there. Setting the tablet's preferred node on the router fixed that: in the Deco app, **Online Clients**, the tablet, **Specified Connection**. After that, 22 of 22 connections went to the near node.
+
+**Not explained.** On one day the link stayed at 160 MHz under a 1.1 Gb/s load for six connections in a row, on the right node at a strong signal. It did not recur the next day. The module also weighs other networks' airtime on the channel, which may be related; that was not established.
+
 ## Scope
 
 This project exposes an already present Qualcomm capability. It does not guarantee that every access point, region, firmware version, or nominally similar tablet will permit 6 GHz operation. Users remain responsible for complying with applicable radio regulations.
