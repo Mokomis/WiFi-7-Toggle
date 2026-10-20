@@ -1,5 +1,10 @@
 # Wi-Fi 7 Toggle for OPPO Pad Mini
 
+> [!IMPORTANT]
+> **Deprecated, no longer updated.** Wi-Fi 7 Toggle is now part of **[Ember](https://github.com/Mokomis/ember)** (Wi-Fi → Wi-Fi 7 / 6 GHz access), one app for the OPPO Pad Mini that combines it with the other fixes for this tablet, with a setup checklist and shared safety checks. This repository is archived (read-only) and stays online for reference.
+>
+> Ember shows the band setting this app wrote and can restore stock, so there is nothing to redo when you switch.
+
 Wi-Fi 7 Toggle is a small root utility for the **OPPO Pad Mini OPD2515** on ColorOS 16. It enables or restores the Qualcomm Wi-Fi band capability setting that controls access to the tablet's 6 GHz/Wi-Fi 7 support.
 
 > [!WARNING]
